@@ -13,7 +13,7 @@ const variantsSchema = new Schema<TVariants>({
 const productSchema = new Schema<TProduct>({
   name: { type: String, required: true, unique: true },
   description: { type: String, required: true },
-  price: { type: Number, required: true, unique: true },
+  price: { type: Number, required: true },
   category: { type: String, required: true },
   tags: { type: [String], required: true },
   variants: { type: [variantsSchema], required: true },

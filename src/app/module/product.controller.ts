@@ -1,14 +1,22 @@
 import { Request, Response } from 'express';
 import { ProductServices } from './product.service';
+import { TProduct } from './product.interface';
 
 const createProduct = async (req: Request, res: Response) => {
   try {
     const { product } = req.body;
     const result = await ProductServices.createProductIntoDB(product);
-    res.status(200).json({
-      success: true,
-      message: 'Product created successfully',
-      data: result,
+    if (result) {
+      res.status(200).json({
+        success: true,
+        message: 'Product created successfully',
+        data: result,
+      });
+    }
+
+    res.status(500).json({
+      success: false,
+      message: `${product.name} is already exists`,
     });
   } catch (err: any) {
     res.status(500).json({
@@ -24,7 +32,7 @@ const getAllProduct = async (req: Request, res: Response) => {
     const result = await ProductServices.getAllProductFromDB();
     res.status(200).json({
       success: true,
-      message: 'Product retrieved successfully',
+      message: 'Products are retrieved successfully',
       data: result,
     });
   } catch (err: any) {
@@ -38,8 +46,8 @@ const getAllProduct = async (req: Request, res: Response) => {
 
 const getSingleProduct = async (req: Request, res: Response) => {
   try {
-    const { id } = req.params;
-    const result = await ProductServices.getSingleProductFromDB(id);
+    const { productId } = req.params;
+    const result = await ProductServices.getSingleProductFromDB(productId);
     res.status(200).json({
       success: true,
       message: 'product is found',
@@ -54,8 +62,32 @@ const getSingleProduct = async (req: Request, res: Response) => {
   }
 };
 
+const updateSingleProduct = async (req: Request, res: Response) => {
+  try {
+    const { product } = req.body;
+    const { productId } = req.params;
+
+    const result = await ProductServices.getSingleProductAndUpdateInDB(
+      productId,
+      product,
+    );
+
+    res.status(200).json({
+      success: true,
+      message: 'Product updated successfully',
+      data: result,
+    });
+  } catch (err: any) {
+    res.status(500).json({
+      success: false,
+      message: 'Something went Wrong' || err.message,
+      Error: err,
+    });
+  }
+};
 export const ProductControllers = {
   createProduct,
   getAllProduct,
   getSingleProduct,
+  updateSingleProduct,
 };
