@@ -11,9 +11,9 @@ const variantsSchema = new Schema<TVariants>({
   value: { type: String, require: true },
 });
 const productSchema = new Schema<TProduct>({
-  name: { type: String, required: true },
+  name: { type: String, required: true, unique: true },
   description: { type: String, required: true },
-  price: { type: Number, required: true },
+  price: { type: Number, required: true, unique: true },
   category: { type: String, required: true },
   tags: { type: [String], required: true },
   variants: { type: [variantsSchema], required: true },

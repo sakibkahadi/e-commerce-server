@@ -18,6 +18,24 @@ const createProduct = async (req: Request, res: Response) => {
     });
   }
 };
+
+const getAllProduct = async (req: Request, res: Response) => {
+  try {
+    const result = await ProductServices.getAllProductFromDB();
+    res.status(200).json({
+      success: true,
+      message: 'Product retrieved successfully',
+      data: result,
+    });
+  } catch (err: any) {
+    res.status(500).json({
+      success: false,
+      message: 'Something went Wrong' || err.message,
+      Error: err,
+    });
+  }
+};
 export const ProductControllers = {
   createProduct,
+  getAllProduct,
 };

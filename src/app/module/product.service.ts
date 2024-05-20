@@ -9,7 +9,16 @@ const createProductIntoDB = async (product: TProduct) => {
     console.log(err);
   }
 };
+const getAllProductFromDB = async () => {
+  try {
+    const result = await ProductModel.find();
+    return result;
+  } catch (err) {
+    console.log(err);
+  }
+};
 
 export const ProductServices = {
   createProductIntoDB,
+  getAllProductFromDB,
 };
