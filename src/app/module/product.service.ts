@@ -3,8 +3,11 @@ import { ProductModel } from './product.model';
 
 const createProductIntoDB = async (product: TProduct) => {
   try {
-    const result = await ProductModel.create(product);
-    return result;
+    const isExisting = await ProductModel.findOne({ name: product.name });
+    if (!isExisting) {
+      const result = await ProductModel.create(product);
+      return result;
+    }
   } catch (err) {
     console.log(err);
   }
