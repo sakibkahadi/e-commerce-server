@@ -9,9 +9,13 @@ const createProductIntoDB = async (product: TProduct) => {
     console.log(err);
   }
 };
-const getAllProductFromDB = async () => {
+const getAllProductFromDB = async (searchTerm?: string) => {
   try {
-    const result = await ProductModel.find();
+    let query = {};
+    if (searchTerm) {
+      query = { name: { $regex: searchTerm, $options: 'i' } };
+    }
+    const result = await ProductModel.find(query);
     return result;
   } catch (err) {
     console.log(err);

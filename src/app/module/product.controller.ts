@@ -29,7 +29,9 @@ const createProduct = async (req: Request, res: Response) => {
 
 const getAllProduct = async (req: Request, res: Response) => {
   try {
-    const result = await ProductServices.getAllProductFromDB();
+    const searchTerm = req.query.searchTerm as string;
+    // console.log(searchTerm);
+    const result = await ProductServices.getAllProductFromDB(searchTerm);
     res.status(200).json({
       success: true,
       message: 'Products are retrieved successfully',
@@ -71,7 +73,6 @@ const updateSingleProduct = async (req: Request, res: Response) => {
       productId,
       product,
     );
-
     res.status(200).json({
       success: true,
       message: 'Product updated successfully',
