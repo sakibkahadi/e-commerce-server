@@ -86,9 +86,35 @@ const updateSingleProduct = async (req: Request, res: Response) => {
     });
   }
 };
+
+const deleteProduct = async (req: Request, res: Response) => {
+  try {
+    const { productId } = req.params;
+    const result = await ProductServices.deleteProductFromDB(productId);
+    if (result) {
+      res.status(200).json({
+        success: true,
+        message: 'product is deleted successfully',
+        data: null,
+      });
+    } else {
+      res.status(500).json({
+        success: false,
+        message: 'something went wrong',
+      });
+    }
+  } catch (err: any) {
+    res.status(500).json({
+      success: false,
+      message: 'Something went Wrong' || err.message,
+      Error: err,
+    });
+  }
+};
 export const ProductControllers = {
   createProduct,
   getAllProduct,
   getSingleProduct,
   updateSingleProduct,
+  deleteProduct,
 };
