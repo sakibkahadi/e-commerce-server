@@ -1,9 +1,14 @@
-import { Schema, model } from 'mongoose';
+import mongoose, { Schema, model } from 'mongoose';
 import { TOrder } from './order.interface';
 
 const OrderSchema = new Schema<TOrder>({
   email: { type: String, required: true },
-  productId: { type: String, required: true, unique: true },
+  productId: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+
+    ref: 'Product',
+  },
   price: { type: Number, required: true },
   quantity: { type: Number, required: true },
 });

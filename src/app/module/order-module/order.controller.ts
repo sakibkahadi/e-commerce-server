@@ -6,6 +6,7 @@ const createOrder = async (req: Request, res: Response) => {
     const { order } = req.body;
 
     const result = await OrderServices.createOrderIntoDb(order);
+
     if (result) {
       return res.status(200).json({
         success: true,
@@ -13,16 +14,14 @@ const createOrder = async (req: Request, res: Response) => {
         data: result,
       });
     }
-
     return res.status(500).json({
       success: false,
-      message: `This product is already in your cart`,
+      message: 'Product is not exists',
     });
   } catch (err: any) {
     return res.status(500).json({
       success: false,
-      message: 'Order is not created' || err.message,
-      Error: err,
+      message: 'Something went wrong',
     });
   }
 };
