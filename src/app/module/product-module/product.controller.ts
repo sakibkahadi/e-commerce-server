@@ -1,8 +1,7 @@
 import { Request, Response } from 'express';
-import { ProductServices } from './product.service';
-import { TProduct } from './product.interface';
+
 import productSchemaZodValidation from './product.zod.validation';
-import { get } from 'mongoose';
+import { ProductServices } from './product.service';
 
 const createProduct = async (req: Request, res: Response) => {
   try {
@@ -35,7 +34,7 @@ const createProduct = async (req: Request, res: Response) => {
 const getAllProduct = async (req: Request, res: Response) => {
   try {
     const searchTerm = req.query.searchTerm as string;
-    // console.log(searchTerm);
+
     const result = await ProductServices.getAllProductFromDB(searchTerm);
     return res.status(200).json({
       success: true,

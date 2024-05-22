@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
-import { TProduct } from './product.interface';
 import { ProductModel } from './product.model';
+import { TProduct } from './product.interface';
 
 const createProductIntoDB = async (product: TProduct) => {
   try {
@@ -10,7 +10,7 @@ const createProductIntoDB = async (product: TProduct) => {
       return result;
     }
   } catch (err) {
-    console.log(err);
+    throw Error('something went wrong');
   }
 };
 const getAllProductFromDB = async (searchTerm?: string) => {
@@ -22,7 +22,7 @@ const getAllProductFromDB = async (searchTerm?: string) => {
     const result = await ProductModel.find(query);
     return result;
   } catch (err) {
-    console.log(err);
+    throw Error('something went wrong');
   }
 };
 
@@ -31,7 +31,7 @@ const getSingleProductFromDB = async (productId: string) => {
     const result = await ProductModel.findById(productId);
     return result;
   } catch (err) {
-    console.log(err);
+    throw Error('something went wrong');
   }
 };
 
@@ -53,7 +53,7 @@ const getSingleProductAndUpdateInDB = async (
 
     return result;
   } catch (err) {
-    console.log(err);
+    throw Error('something went wrong');
   }
 };
 
@@ -62,7 +62,7 @@ const deleteProductFromDB = async (productId: string) => {
     const result = await ProductModel.findByIdAndDelete(productId);
     return result;
   } catch (err) {
-    console.log(err);
+    throw Error('something went wrong');
   }
 };
 

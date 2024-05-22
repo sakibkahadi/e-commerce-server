@@ -1,5 +1,4 @@
-import mongoose from 'mongoose';
-import { ProductModel } from '../product.model';
+import { ProductModel } from '../product-module/product.model';
 import { TOrder } from './order.interface';
 import { OrderModel } from './order.model';
 
@@ -11,7 +10,7 @@ const createOrderIntoDb = async (order: TOrder) => {
       return result;
     }
   } catch (err) {
-    console.log(err);
+    throw Error('something went wrong');
   }
 };
 
@@ -22,10 +21,10 @@ const getOrdersFromDb = async (email?: string) => {
       query = { email: { $regex: email, $options: 'i' } };
     }
     const result = await OrderModel.find(query);
-    // console.log(result.length);
+
     return result;
   } catch (err) {
-    console.log(err);
+    throw Error('something went wrong');
   }
 };
 export const OrderServices = {

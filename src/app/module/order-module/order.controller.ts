@@ -5,9 +5,7 @@ import OrderZodValidationSchema from './order.zod.validation';
 const createOrder = async (req: Request, res: Response) => {
   try {
     const { order } = req.body;
-    console.log(order.email);
 
-    console.log(order);
     const result = await OrderServices.createOrderIntoDb(
       OrderZodValidationSchema.parse(order),
     );
@@ -55,7 +53,7 @@ const getOrder = async (req: Request, res: Response) => {
       message: 'No Data Found',
       data: result,
     });
-  } catch (err: any) {
+  } catch (err) {
     return res.status(500).json({
       success: false,
       message: 'Something went wrong',
