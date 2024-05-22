@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import { TProduct } from './product.interface';
 import { ProductModel } from './product.model';
 
@@ -39,9 +40,16 @@ const getSingleProductAndUpdateInDB = async (
   updateData: TProduct,
 ) => {
   try {
-    const result = await ProductModel.findByIdAndUpdate(productId, updateData, {
-      new: true,
-    });
+    if (!mongoose.Types.ObjectId.isValid(productId)) {
+      throw new Error('Invalid product ID');
+    }
+    const result = await ProductModel.findByIdAndUpdate(
+      { _id: productId },
+      updateData,
+      {
+        new: true,
+      },
+    );
 
     return result;
   } catch (err) {

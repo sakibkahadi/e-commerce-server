@@ -80,11 +80,19 @@ const updateSingleProduct = async (req: Request, res: Response) => {
   try {
     const { product } = req.body;
     const { productId } = req.params;
-
+    const zodParsedData = productSchemaZodValidation.parse(product);
     const result = await ProductServices.getSingleProductAndUpdateInDB(
       productId,
-      product,
+      zodParsedData,
     );
+    if (!result) {
+      return res.status(200).json({
+        success: true,
+        message: 'Product is not found ',
+        data: result,
+      });
+    }
+
     return res.status(200).json({
       success: true,
       message: 'Product updated successfully',
