@@ -55,10 +55,17 @@ const getSingleProduct = async (req: Request, res: Response) => {
   try {
     const { productId } = req.params;
     const result = await ProductServices.getSingleProductFromDB(productId);
-    return res.status(200).json({
+    if (result) {
+      return res.status(200).json({
+        success: true,
+        message: 'product is found',
+        data: result,
+      });
+    }
+    return res.status(500).json({
       success: true,
-      message: 'product is found',
-      data: result,
+      message: 'product is not found',
+      data: null,
     });
   } catch (err: any) {
     return res.status(500).json({

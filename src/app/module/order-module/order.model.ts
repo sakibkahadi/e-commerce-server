@@ -6,7 +6,6 @@ const OrderSchema = new Schema<TOrder>({
   productId: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,
-
     ref: 'Product',
   },
   price: { type: Number, required: true },
