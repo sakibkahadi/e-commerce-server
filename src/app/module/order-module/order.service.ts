@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import { ProductModel } from '../product.model';
 import { TOrder } from './order.interface';
 import { OrderModel } from './order.model';
@@ -6,7 +7,7 @@ const createOrderIntoDb = async (order: TOrder) => {
   try {
     const result = await OrderModel.create(order);
     const filter = await ProductModel.findById(order.productId);
-    if (filter) {
+    if (filter?._id) {
       return result;
     }
   } catch (err) {

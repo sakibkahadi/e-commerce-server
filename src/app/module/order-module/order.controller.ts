@@ -1,12 +1,16 @@
 import { Request, Response } from 'express';
 import { OrderServices } from './order.service';
-import OrderSchemaZodValidation from './order.zod.validation';
+import OrderZodValidationSchema from './order.zod.validation';
 
 const createOrder = async (req: Request, res: Response) => {
   try {
     const { order } = req.body;
+    console.log(order.email);
 
-    const result = await OrderServices.createOrderIntoDb(order);
+    console.log(order);
+    const result = await OrderServices.createOrderIntoDb(
+      OrderZodValidationSchema.parse(order),
+    );
 
     if (result) {
       return res.status(200).json({
@@ -22,7 +26,8 @@ const createOrder = async (req: Request, res: Response) => {
   } catch (err: any) {
     return res.status(500).json({
       success: false,
-      message: 'Something went wrong',
+      message: 'Order is not created' || err.message,
+      Error: err,
     });
   }
 };
